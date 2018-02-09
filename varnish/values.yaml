@@ -1,0 +1,30 @@
+# Default values for varnish.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+replicaCount: 1
+
+
+backendHost: ""
+
+
+image:
+  repository: "hub.apsl.net/library/varnish"
+  tag: "6683-281b4328"
+  pullPolicy: Always
+
+
+service:
+  type: NodePort
+  externalPort: 80
+  internalPort: 8080
+
+
+probes:
+  enabled: true
+
+
+resources:
+  limits:
+    memory: 64Mi
+  requests:
+    memory: 40Mi
