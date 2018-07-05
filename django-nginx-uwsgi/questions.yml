@@ -1,0 +1,5 @@
+- variable: varnish.enabled
+  default: "false"
+  description: "Use Varnish"
+  label: Use Varnish
+  type: boolean
