@@ -1,0 +1,18 @@
+dependencies:
+- name: nginx-uwsgi
+  repository: file://../nginx-uwsgi
+  version: 0.1.1
+- name: uwsgi
+  repository: file://../uwsgi
+  version: 0.1.1
+- name: uwsgi
+  repository: file://../uwsgi
+  version: 0.1.1
+- name: uwsgi
+  repository: file://../uwsgi
+  version: 0.1.1
+- name: varnish
+  repository: file://../varnish
+  version: 0.1.0
+digest: sha256:0386e26882bf83be331f2db7acab3e859c99776d8adccb54158985737e39043f
+generated: 2018-07-16T14:38:10.436417132+02:00

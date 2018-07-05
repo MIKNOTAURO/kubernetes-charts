@@ -10,8 +10,6 @@ global:
 
 uwsgi:
   secrets:
-    secretKey: ""
-    passwordDB: ""
     sentryDSN: ""
 
 

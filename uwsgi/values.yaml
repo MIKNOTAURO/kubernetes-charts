@@ -14,7 +14,7 @@ global:
       port: "5432"
       filename: cloudsql-authorization.json
   cloudsqlProxy:
-    tag: "1.11"
+    image: "eu.gcr.io/apsl-hosting-pre/gce-proxy-pre"
     ports:
      - name: postgres
        containerPort: 5432
@@ -55,6 +55,7 @@ deployment:
       memory: 50Mi
   sentry:
     enabled: true
+  redisHost: "10.0.0.3"
   redisPort: "6379"
   cloudsqlProxy:
     enabled: true
@@ -71,7 +72,7 @@ service:
 
 configMap:
     enabled: true
-    uwsgiAddr: ""
+    uwsgiAddr: "127.0.0.1:8080"
     enableBasicAuth: "True"
     enable3wRedirect: "True"
     enableHttpsRedirect: "True"
@@ -80,6 +81,9 @@ configMap:
     databaseName: ""
     databaseUser: apsl
     enableSentry: "True"
+    compressEnabled: "True"
+    compressOffline: "True"
+    allowedHosts: "*"
 
 
 secrets:
@@ -87,8 +91,6 @@ secrets:
   type: Opaque
   cloudsql:
     name: cloudsql-oauth-credentials
-  secretKey: ""
-  passwordDB: ""
   sentryDSN: ""
 
 

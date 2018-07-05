@@ -95,18 +95,33 @@ spec:
                   key: django.databasePort
             - name: DATABASE_NAME
               valueFrom:
-                configMapKeyRef:
-                  name: {{ .Release.Name }}
-                  key: django.databaseName
+                secretKeyRef:
+                  name: db-secret
+                  key: database-name
             - name: DATABASE_USER
               valueFrom:
-                configMapKeyRef:
-                  name: {{ .Release.Name }}
-                  key: django.databaseUser
+                secretKeyRef:
+                  name: db-secret
+                  key: database-user
             - name: DATABASE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  key: django.passwordDB
+                  name: db-secret
+                  key: database-password
+            - name: COMPRESS_ENABLED
+              valueFrom:
+                configMapKeyRef:
+                  key: django.compressEnabled
+                  name: {{ .Release.Name }}
+            - name: COMPRESS_OFFLINE
+              valueFrom:
+                configMapKeyRef:
+                  key: django.compressOffline
+                  name: {{ .Release.Name }}
+            - name: ALLOWED_HOSTS
+              valueFrom:
+                configMapKeyRef:
+                  key: django.allowedHosts
                   name: {{ .Release.Name }}
             - name: SENTRY_ENABLED
               valueFrom:
@@ -121,7 +136,7 @@ spec:
                   key: django.sentryDSN
             {{- end }}
             - name: REDIS_HOST
-              value: {{ .Release.Name }}-redis
+              value: "{{ .Values.deployment.redisHost }}"
             - name: REDIS_PORT
               value: "{{ .Values.deployment.redisPort }}"
             # Update environment variables with the secrets if has data defined
@@ -167,7 +182,7 @@ spec:
 
         {{- if .Values.deployment.cloudsqlProxy.enabled }}
         - name: {{ .Values.deployment.cloudsqlProxy.name }}
-          image: "gcr.io/cloudsql-docker/gce-proxy:{{ .Values.global.cloudsqlProxy.tag }}"
+          image: "{{ .Values.global.cloudsqlProxy.image }}"
           imagePullPolicy: {{ .Values.deployment.cloudsqlProxy.pullPolicy }}
           {{- if .Values.global.cloudsqlProxy.ports }}
           ports:
@@ -179,9 +194,6 @@ spec:
             - -instances={{ .Values.global.image.cloudsqlProxy.project }}:{{ .Values.global.image.cloudsqlProxy.zone }}:{{ .Values.global.image.cloudsqlProxy.name }}=tcp:{{ .Values.global.image.cloudsqlProxy.port }}
             - -credential_file=/secrets/cloudsql/{{ .Values.global.image.cloudsqlProxy.filename }}
           volumeMounts:
-            - name: cloudsql-oauth-credentials
-              mountPath: /secrets/cloudsql
-              readOnly: True
             - name: ssl-certs
               mountPath: /etc/ssl/certs
         {{- end }}
@@ -246,9 +258,6 @@ spec:
       {{- end }}
 
       volumes:
-        - name: cloudsql-oauth-credentials
-          secret:
-            secretName: cloudsql-oauth-credentials
         - name: ssl-certs
           hostPath:
             path: /etc/ssl/certs
