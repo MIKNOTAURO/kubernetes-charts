@@ -8,7 +8,11 @@ questions:
   type: string  
 - variable: global.image.nginx
   label: nginx image
-  type: string  
+  type: string
+- variable: secrets.enabled
+  default: "false"
+  label: Use Secrets
+  type: boolean    
 - variable: secrets.secretKey
   label: secretKey
   type: string  
