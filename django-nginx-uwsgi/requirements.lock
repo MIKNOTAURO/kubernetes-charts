@@ -1,0 +1,21 @@
+dependencies:
+- name: nginx-uwsgi
+  repository: file://../nginx-uwsgi
+  version: 0.1.1
+- name: uwsgi
+  repository: file://../uwsgi
+  version: 0.1.1
+- name: uwsgi
+  repository: file://../uwsgi
+  version: 0.1.1
+- name: uwsgi
+  repository: file://../uwsgi
+  version: 0.1.1
+- name: varnish
+  repository: file://../varnish
+  version: 0.1.0
+- name: redis
+  repository: https://kubernetes-charts.storage.googleapis.com
+  version: 0.8.0
+digest: sha256:8099d44a5c52317cb3a66f89c3f932365b3562edab5bfde9aa30726c61edd531
+generated: 2018-07-06T15:07:02.736313806+02:00
