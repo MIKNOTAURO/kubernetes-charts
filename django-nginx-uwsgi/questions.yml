@@ -9,16 +9,16 @@ questions:
 - variable: global.image.nginx
   label: nginx image
   type: string
-- variable: nginx-uwsgi.secrets.enabled
+- variable: app.secrets.enabled
   default: "false"
   label: Use Secrets
   type: boolean    
-- variable: nginx-uwsgi.secrets.secretKey
+- variable: app.secrets.secretKey
   label: secretKey
   type: string  
-- variable: nginx-uwsgi.secrets.passwordDB
+- variable: app.secrets.passwordDB
   label: passwordDB
   type: string  
-- variable: nginx-uwsgi.secrets.sentryDSN
+- variable: app.secrets.sentryDSN
   label: sentryDSN
   type: string  
