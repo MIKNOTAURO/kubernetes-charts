@@ -5,11 +5,16 @@ questions:
   type: boolean
 - variable: global.image.uwsgi
   label: uwsgi image
+  type: string  
 - variable: global.image.nginx
   label: nginx image
+  type: string  
 - variable: secrets.secretKey
   label: secretKey
+  type: string  
 - variable: secrets.passwordDB
   label: passwordDB
+  type: string  
 - variable: secrets.sentryDSN
   label: sentryDSN
+  type: string  
