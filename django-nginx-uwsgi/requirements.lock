@@ -14,8 +14,5 @@ dependencies:
 - name: varnish
   repository: file://../varnish
   version: 0.1.0
-- name: redis
-  repository: https://kubernetes-charts.storage.googleapis.com
-  version: 0.8.0
-digest: sha256:8099d44a5c52317cb3a66f89c3f932365b3562edab5bfde9aa30726c61edd531
-generated: 2018-07-06T15:07:02.736313806+02:00
+digest: sha256:0386e26882bf83be331f2db7acab3e859c99776d8adccb54158985737e39043f
+generated: 2018-07-16T14:38:10.436417132+02:00

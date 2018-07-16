@@ -55,6 +55,7 @@ deployment:
       memory: 50Mi
   sentry:
     enabled: true
+  redisHost: "10.0.0.3"
   redisPort: "6379"
   cloudsqlProxy:
     enabled: true

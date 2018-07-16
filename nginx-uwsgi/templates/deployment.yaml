@@ -121,7 +121,7 @@ spec:
                   key: django.sentryDSN
             {{- end }}
             - name: REDIS_HOST
-              value: {{ .Release.Name }}-redis
+              value: "{{ .Values.deployment.redisHost }}"
             - name: REDIS_PORT
               value: "{{ .Values.deployment.redisPort }}"
             # Update environment variables with the secrets if has data defined

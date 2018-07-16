@@ -63,6 +63,7 @@ deployment:
   sentry:
     enabled: true
   redisPort: "6379"
+  redisHost: "10.0.0.3"
   cloudsqlProxy:
     enabled: true
     name: cloudsql-proxy

@@ -3,11 +3,22 @@
 # Declare variables to be passed into your templates.
 
 global:
-  dataSecrets:
-  dataConfigMap:
   image:
     uwsgi: ""
     nginx: ""
+    cloudsqlProxy:
+      project: apsl-hosting-pre
+      name: apsl-hosting-pre
+      zone: europe-west1
+      port: "5432"
+      filename: cloudsql-authorization.json
+  cloudsqlProxy:
+    tag: "1.11"
+    ports:
+     - name: postgres
+       containerPort: 5432
+  dataSecrets:
+  dataConfigMap:
 
 
 nginx-uwsgi:
@@ -67,22 +78,6 @@ rq:
         enabled: false
       readiness:
         enabled: false
-
-
-redis:
-  enabled: true
-  image: redis:3.0.7
-  usePassword: false
-  persistence:
-    enabled: false
-  resources:
-    limits:
-      cpu: 50m
-      memory: 256Mi
-    requests:
-      cpu: 50m
-      memory: 128Mi
-
 
 # BackendHost takes release name as a prefix: {{ RELEASE_NAME-backendHost }}
 varnish:

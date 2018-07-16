@@ -1,24 +1,23 @@
 questions:
+- variable: global.image.uwsgi
+  label: uWSIG Image
+  type: string  
+- variable: global.image.nginx
+  label: Nginx Image
+  type: string 
+- variable: app.configMap.databaseUser
+  label: DB User
+  type: string  
+- variable: app.configMap.databaseName
+  label: DB Name
+  type: string      
+- variable: app.secrets.passwordDB
+  label: DB Password
+  type: string  
+- variable: app.secrets.sentryDSN
+  label: Sentry DSN
+  type: string  
 - variable: varnish.enabled
   default: "false"
   label: Use Varnish
   type: boolean
-- variable: global.image.uwsgi
-  label: uwsgi image
-  type: string  
-- variable: global.image.nginx
-  label: nginx image
-  type: string
-- variable: app.secrets.enabled
-  default: "false"
-  label: Use Secrets
-  type: boolean    
-- variable: app.secrets.secretKey
-  label: secretKey
-  type: string  
-- variable: app.secrets.passwordDB
-  label: passwordDB
-  type: string  
-- variable: app.secrets.sentryDSN
-  label: sentryDSN
-  type: string  
