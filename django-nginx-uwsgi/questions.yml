@@ -24,3 +24,7 @@ questions:
   default: "false"
   label: Use Varnish
   type: boolean
+- variable: crons.enabled
+  default: "false"
+  label: Use Crons
+  type: boolean  
