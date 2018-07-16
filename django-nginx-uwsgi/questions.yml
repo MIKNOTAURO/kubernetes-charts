@@ -16,7 +16,10 @@ questions:
   type: string  
 - variable: app.secrets.sentryDSN
   label: Sentry DSN
-  type: string  
+  type: string
+- variable: app.secrets.secretKey
+  label: Secret Key
+  type: string      
 - variable: varnish.enabled
   default: "false"
   label: Use Varnish
