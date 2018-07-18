@@ -27,4 +27,9 @@ questions:
 - variable: crons.enabled
   default: "false"
   label: Use Crons
-  type: boolean  
+  type: boolean
+- variable: app.configMap.enableBasicAuth
+  default: "false"
+  label: Use Basic Auth
+  type: boolean
+  description: Use demo/demo to login

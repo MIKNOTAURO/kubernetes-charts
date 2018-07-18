@@ -90,6 +90,7 @@ service:
 
 configMap:
     enabled: true
+    uwsgiAddr: "127.0.0.1:8080"
     enableBasicAuth: "True"
     enable3wRedirect: "True"
     enableHttpsRedirect: "True"

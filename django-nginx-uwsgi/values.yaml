@@ -8,7 +8,7 @@ global:
     nginx: ""
     cloudsqlProxy:
       project: apsl-hosting-pre
-      name: apsl-hosting-pre
+      name: postgres-pre
       zone: europe-west1
       port: "5432"
       filename: cloudsql-authorization.json
