@@ -99,6 +99,9 @@ configMap:
     databaseName: ""
     databaseUser: apsl
     enableSentry: "True"
+    compressEnabled: "True"
+    compressOffline: "True"
+    allowedHosts: "*"
 
 
 secrets:
