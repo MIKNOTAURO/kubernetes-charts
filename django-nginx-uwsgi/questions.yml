@@ -30,6 +30,10 @@ questions:
   type: boolean
 - variable: app.configMap.enableBasicAuth
   default: "false"
-  label: Use Basic Auth
+  label: Use Basic auth
   type: boolean
   description: Use demo/demo to login
+- variable: app.configMap.enable3wRedirect
+  default: "false"
+  label: Use www redirect
+  type: boolean
