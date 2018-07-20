@@ -1,2 +1,4 @@
 lb:
-  serviceName: ""
+  service:
+    name: ""
+    namespace: ""
