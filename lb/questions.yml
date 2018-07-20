@@ -1,0 +1,5 @@
+questions:
+- variable: lb.serviceName
+  label: Service Name
+  type: string
+  description: Name of the service that you want to reference
