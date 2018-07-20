@@ -195,7 +195,7 @@ spec:
 # with the `json` resultant file account.
 {{- if .Values.deployment.cloudsqlProxy.enabled }}
         - name: {{ .Values.deployment.cloudsqlProxy.name }}
-          image: "gcr.io/cloudsql-docker/gce-proxy:{{ .Values.global.cloudsqlProxy.tag }}"
+          image: "{{ .Values.global.cloudsqlProxy.image }}"
           imagePullPolicy: {{ .Values.deployment.cloudsqlProxy.pullPolicy }}
           {{- if .Values.global.cloudsqlProxy.ports }}
           ports:
@@ -207,9 +207,6 @@ spec:
             - -instances={{ .Values.global.image.cloudsqlProxy.project }}:{{ .Values.global.image.cloudsqlProxy.zone }}:{{ .Values.global.image.cloudsqlProxy.name }}=tcp:{{ .Values.global.image.cloudsqlProxy.port }}
             - -credential_file=/secrets/cloudsql/{{ .Values.global.image.cloudsqlProxy.filename }}
           volumeMounts:
-            - name: cloudsql-oauth-credentials
-              mountPath: /secrets/cloudsql
-              readOnly: True
             - name: ssl-certs
               mountPath: /etc/ssl/certs
         {{- end }}
@@ -220,9 +217,6 @@ spec:
       {{- end }}
 
       volumes:
-        - name: cloudsql-oauth-credentials
-          secret:
-            secretName: cloudsql-oauth-credentials
         - name: ssl-certs
           hostPath:
             path: /etc/ssl/certs

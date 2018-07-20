@@ -14,7 +14,7 @@ global:
       port: "5432"
       filename: cloudsql-authorization.json
   cloudsqlProxy:
-    tag: "1.11"
+    image: "eu.gcr.io/apsl-hosting-pre/gce-proxy-pre"
     ports:
      - name: postgres
        containerPort: 5432
