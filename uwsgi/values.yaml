@@ -92,7 +92,6 @@ secrets:
   cloudsql:
     name: cloudsql-oauth-credentials
   secretKey: ""
-  passwordDB: ""
   sentryDSN: ""
 
 

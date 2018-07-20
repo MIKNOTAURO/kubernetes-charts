@@ -93,19 +93,19 @@ spec:
                   key: django.databasePort
             - name: DATABASE_NAME
               valueFrom:
-                configMapKeyRef:
-                  name: {{ .Release.Name }}
-                  key: django.databaseName
+                secretKeyRef:
+                  name: db-secret
+                  key: database-name
             - name: DATABASE_USER
               valueFrom:
-                configMapKeyRef:
-                  name: {{ .Release.Name }}
-                  key: django.databaseUser
+                secretKeyRef:
+                  name: db-secret
+                  key: database-user
             - name: DATABASE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  key: django.passwordDB
-                  name: {{ .Release.Name }}
+                  name: db-secret
+                  key: database-password
             - name: COMPRESS_ENABLED
               valueFrom:
                 configMapKeyRef:
