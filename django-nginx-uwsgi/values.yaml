@@ -23,8 +23,6 @@ global:
 
 nginx-uwsgi:
   secrets:
-    secretKey: ""
-    passwordDB: ""
     sentryDSN: ""
 
 

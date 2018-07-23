@@ -91,7 +91,6 @@ secrets:
   type: Opaque
   cloudsql:
     name: cloudsql-oauth-credentials
-  secretKey: ""
   sentryDSN: ""
 
 

@@ -1,6 +1,6 @@
 questions:
 - variable: global.image.uwsgi
-  label: uWSIG Image
+  label: uWSGI Image
   type: string  
 - variable: global.image.nginx
   label: Nginx Image
