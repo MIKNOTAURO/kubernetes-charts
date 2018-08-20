@@ -88,11 +88,16 @@ spec:
                 configMapKeyRef:
                   name: {{ .Release.Name }}
                   key: django.databaseHost
+            {{- if .Values.deployment.pgBouncer.enabled }}
+            - name: DATABASE_PORT
+              value: "{{ .Values.deployment.pgBouncer.port }}"
+            {{- else -}}
             - name: DATABASE_PORT
               valueFrom:
                 configMapKeyRef:
                   name: {{ .Release.Name }}
                   key: django.databasePort
+            {{- end }}
             - name: DATABASE_NAME
               valueFrom:
                 secretKeyRef:
@@ -198,6 +203,56 @@ spec:
               mountPath: /etc/ssl/certs
         {{- end }}
 
+# PgBouncer container
+        {{- if .Values.deployment.pgBouncer.enabled }}
+        - name: {{ .Release.Name }}-pgbouncer
+          image: brainsam/pgbouncer:1.8.1
+          env:
+          - name: DB_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: {{ .Release.Name }}
+                key: django.databaseHost
+          - name: DB_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: {{ .Release.Name }}
+                key: django.databasePort
+          - name: DB_USER
+            valueFrom:
+              secretKeyRef:
+                name: db-secret
+                key: database-user
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: db-secret
+                key: database-password
+          - name: LISTEN_PORT
+            value: "{{ .Values.deployment.pgBouncer.port }}"
+          - name: LOGFILE
+            value: /tmp/pgbouncer.log
+          - name: POOL_MODE
+            value: {{ .Values.deployment.pgBouncer.poolMode }}
+          - name: MAX_CLIENT_CONN
+            value: "{{ .Values.deployment.pgBouncer.maxClientConn }}"
+          - name: MAX_DB_CONNECTIONS
+            value: "{{ .Values.deployment.pgBouncer.maxDBConnections }}"
+          - name: LISTEN_BACKLOG
+            value: "{{ .Values.deployment.pgBouncer.listenBacklog }}"
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: {{ .Values.deployment.pgBouncer.port }}
+            name: postgres
+            protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: {{ .Values.deployment.pgBouncer.port }}
+          readinessProbe:
+            tcpSocket:
+              port: {{ .Values.deployment.pgBouncer.port }}
+        {{- end }}
+
 # Nginx container
 # The default configuration create the nginx container, but you can disable it with
 # <deployment.nginx.enabled> value.
@@ -256,6 +311,100 @@ spec:
       nodeSelector:
 {{ toYaml .Values.deployment.nodeSelector | indent 8 }}
       {{- end }}
+
+# Metrics containers
+        {{- if .Values.deployment.metrics.enabled }}
+        - name: {{ .Release.Name }}-uwsgi-exporter
+          image: timonwong/uwsgi-exporter
+          args:
+          - --stats.uri=http://localhost:1717
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 10m
+              memory: 10Mi
+            limits:
+              cpu: 100m
+              memory: 25Mi
+        {{- if .Values.deployment.nginx.enabled }}
+        - name: {{ .Release.Name }}-nginx-exporter
+          image: fish/nginx-exporter
+          args:
+          - --nginx.scrape_uri=http://localhost/nginx/status
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 10m
+              memory: 10Mi
+            limits:
+              cpu: 100m
+              memory: 25M
+          livenessProbe:
+            httpGet:
+              path: /-/healthy
+              port: 9113
+        {{- end }}
+        {{- if .Values.deployment.pgBouncer.enabled }}
+        - name: {{ .Release.Name }}-pgbouncer-exporter
+          image: apsl/prometheus-pgbouncer-exporter
+          args:
+          - --config=/etc/pgbouncer-exporter/config.yml
+          env:
+          - name: PGBOUNCER_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: {{ .Release.Name }}
+                key: django.databaseHost
+          - name: PGBOUNCER_PORT
+            value: "{{ .Values.deployment.pgBouncer.port }}"
+          - name: PGBOUNCER_USER
+            valueFrom:
+              secretKeyRef:
+                name: db-secret
+                key: database-user
+          - name: PGBOUNCER_PASS
+            valueFrom:
+              secretKeyRef:
+                name: db-secret
+                key: database-password
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 10m
+              memory: 20Mi
+            limits:
+              cpu: 100m
+              memory: 50Mi
+        {{- end }}
+        - name: prometheus-to-sd
+          image: gcr.io/google-containers/prometheus-to-sd:v0.3.1
+          command:
+          - /monitor
+          - --source=:http://localhost:9117/metrics # uwsgi
+          - --source=:http://localhost:9113/metrics # nginx
+          - --source=:http://localhost:8080/metrics # django
+          - --source=:http://localhost:9127/metrics # pgbouncer
+          - --stackdriver-prefix=custom.googleapis.com
+          - --pod-id=$(POD_ID)
+          - --namespace-id=$(POD_NAMESPACE)
+          env:
+          - name: POD_ID
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.name
+          - name: POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+          resources:
+            requests:
+              cpu: 10m
+              memory: 20Mi
+            limits:
+              cpu: 100m
+              memory: 50Mi
+        {{- end }}
 
       volumes:
         - name: ssl-certs

@@ -79,6 +79,15 @@ deployment:
     resources:
       requests:
         cpu: 10m
+  pgBouncer:
+    enabled: true
+    port: 6543
+    poolMode: "transaction"
+    maxClientConn: 128
+    maxDBConnections: 2
+    listenBacklog: 4096
+  metrics:
+    enabled: true
 
 
 service:
