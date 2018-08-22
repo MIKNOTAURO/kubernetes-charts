@@ -88,11 +88,16 @@ spec:
                 configMapKeyRef:
                   name: {{ .Release.Name }}
                   key: django.databaseHost
+            {{- if .Values.deployment.pgBouncer.enabled }}
+            - name: DATABASE_PORT
+              value: {{ .Values.deployment.pgBouncer.port }}
+            {{- else -}}
             - name: DATABASE_PORT
               valueFrom:
                 configMapKeyRef:
                   name: {{ .Release.Name }}
                   key: django.databasePort
+            {{- end }}
             - name: DATABASE_NAME
               valueFrom:
                 secretKeyRef:
