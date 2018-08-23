@@ -90,7 +90,7 @@ spec:
                   key: django.databaseHost
             {{- if .Values.deployment.pgBouncer.enabled }}
             - name: DATABASE_PORT
-              value: {{ .Values.deployment.pgBouncer.port }}
+              value: "{{ .Values.deployment.pgBouncer.port }}"
             {{- else -}}
             - name: DATABASE_PORT
               valueFrom:
@@ -229,28 +229,28 @@ spec:
                 name: db-secret
                 key: database-password
           - name: LISTEN_PORT
-            value: {{ .Values.deployment.pgBouncer.port }}
+            value: "{{ .Values.deployment.pgBouncer.port }}"
           - name: LOGFILE
             value: /tmp/pgbouncer.log
           - name: POOL_MODE
             value: {{ .Values.deployment.pgBouncer.poolMode }}
           - name: MAX_CLIENT_CONN
-            value: {{ .Values.deployment.pgBouncer.maxClientConn }}
+            value: "{{ .Values.deployment.pgBouncer.maxClientConn }}"
           - name: MAX_DB_CONNECTIONS
-            value: {{ .Values.deployment.pgBouncer.maxDBConnections }}
+            value: "{{ .Values.deployment.pgBouncer.maxDBConnections }}"
           - name: LISTEN_BACKLOG
-            value: {{ .Values.deployment.pgBouncer.listenBacklog }}
+            value: "{{ .Values.deployment.pgBouncer.listenBacklog }}"
           imagePullPolicy: IfNotPresent
           ports:
-          - containerPort: {{ .Values.deployment.pgBouncer.port }}
+          - containerPort: "{{ .Values.deployment.pgBouncer.port }}"
             name: postgres
             protocol: TCP
           livenessProbe:
             tcpSocket:
-              port: {{ .Values.deployment.pgBouncer.port }}
+              port: "{{ .Values.deployment.pgBouncer.port }}"
           readinessProbe:
             tcpSocket:
-              port: {{ .Values.deployment.pgBouncer.port }}
+              port: "{{ .Values.deployment.pgBouncer.port }}"
         {{- end }}
 
 # Nginx container

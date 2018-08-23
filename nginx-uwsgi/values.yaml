@@ -81,7 +81,7 @@ deployment:
         cpu: 10m
   pgBouncer:
     enabled: true
-    port: "6543"
+    port: 6543
     poolMode: "transaction"
     maxClientConn: 128
     maxDBConnections: 2
