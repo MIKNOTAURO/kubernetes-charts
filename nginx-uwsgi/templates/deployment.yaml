@@ -242,15 +242,15 @@ spec:
             value: "{{ .Values.deployment.pgBouncer.listenBacklog }}"
           imagePullPolicy: IfNotPresent
           ports:
-          - containerPort: "{{ .Values.deployment.pgBouncer.port }}"
+          - containerPort: {{ .Values.deployment.pgBouncer.port }}
             name: postgres
             protocol: TCP
           livenessProbe:
             tcpSocket:
-              port: "{{ .Values.deployment.pgBouncer.port }}"
+              port: {{ .Values.deployment.pgBouncer.port }}
           readinessProbe:
             tcpSocket:
-              port: "{{ .Values.deployment.pgBouncer.port }}"
+              port: {{ .Values.deployment.pgBouncer.port }}
         {{- end }}
 
 # Nginx container
