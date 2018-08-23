@@ -86,6 +86,8 @@ deployment:
     maxClientConn: 128
     maxDBConnections: 2
     listenBacklog: 4096
+  metrics:
+    enabled: true
 
 
 service:
