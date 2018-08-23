@@ -344,7 +344,7 @@ spec:
                 name: {{ .Release.Name }}
                 key: django.databaseHost
           - name: PGBOUNCER_PORT
-            value: {{ .Values.deployment.pgBouncer.port }}
+            value: "{{ .Values.deployment.pgBouncer.port }}"
           - name: PGBOUNCER_USER
             valueFrom:
               secretKeyRef:
